@@ -6,134 +6,243 @@
   <title>Commande Plateaux Repas | FOUD</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
   <style>
-    body {font-family:"Poppins",sans-serif;background:#f7f7f7;color:#333;margin:0;padding:0;}
-    header {background:#1a1a1a;color:white;text-align:center;padding:1.5em 1em;font-size:1.5em;letter-spacing:1px;}
-    form {max-width:800px;margin:2em auto;background:white;padding:2em;border-radius:1em;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
-    h2 {border-bottom:2px solid #ffa726;padding-bottom:0.3em;margin-bottom:0.8em;color:#ff9800;}
-    .plateau {border:1px solid #ddd;padding:1.5em;border-radius:1em;margin-bottom:1.5em;background:#fafafa;}
-    label {display:block;margin:0.5em 0 0.2em;font-weight:500;}
-    input, select, textarea {width:100%;padding:0.6em;border:1px solid #ccc;border-radius:0.5em;font-size:1em;}
-    textarea {resize:vertical;}
-    .checkbox-inline {display:flex;align-items:center;gap:0.5em;margin-top:0.5em;}
-    button {display:inline-block;background:#ff9800;color:white;border:none;padding:0.8em 1.2em;border-radius:0.5em;font-size:1em;cursor:pointer;transition:background 0.2s ease;}
-    button:hover {background:#fb8c00;}
-    .add-plateau {margin-top:1em;background:#43a047;}
-    .add-plateau:hover {background:#388e3c;}
-    .success {text-align:center;color:#2e7d32;font-weight:600;display:none;margin-top:1.5em;}
+    :root { --accent:#ff9800; --accent-2:#43a047; }
+    * { box-sizing: border-box; }
+    body { font-family: "Poppins", sans-serif; background:#f7f7f7; color:#333; margin:0; }
+    header { background:#1a1a1a; color:#fff; text-align:center; padding:1.25rem; font-size:1.3rem; }
+    .container { max-width: 820px; margin: 2rem auto; padding: 0 1rem; }
+    form { background:#fff; padding:1.5rem; border-radius:1rem; box-shadow:0 6px 18px rgba(0,0,0,.08); }
+    h2 { font-size:1.1rem; margin:1rem 0 .75rem; color:var(--accent); border-bottom:2px solid #ffd08a; padding-bottom:.35rem;}
+    .row { display:flex; gap:12px; flex-wrap:wrap; }
+    .field { flex: 1 1 260px; }
+    label { display:block; font-weight:600; margin:.35rem 0 .25rem; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], select, textarea {
+      width:100%; padding:.65rem .7rem; border:1px solid #d8d8d8; border-radius:.6rem; font-size:.98rem; background:#fff;
+    }
+    textarea { resize:vertical; min-height:68px; }
+    .plateau { background:#fafafa; border:1px solid #e8e8e8; border-radius:1rem; padding:1rem; margin-bottom:1rem; position:relative; }
+    .plateau-title { font-weight:600; color:#444; margin:0 0 .5rem; }
+    .plateau-actions { position:absolute; top:10px; right:10px; display:flex; gap:8px; }
+    .btn { display:inline-flex; align-items:center; gap:.4rem; border:none; border-radius:.6rem; cursor:pointer; padding:.7rem 1rem; font-weight:600; }
+    .btn-primary { background:var(--accent); color:#fff; }
+    .btn-primary:hover { filter:brightness(.95); }
+    .btn-green { background:var(--accent-2); color:#fff; }
+    .btn-green:hover { filter:brightness(.95); }
+    .btn-ghost { background:#fff; color:#d32f2f; border:1px solid #ef9a9a; }
+    .btn-ghost:hover { background:#fff3f3; }
+    .inline-radios { display:flex; gap:16px; align-items:center; margin:.2rem 0 .6rem; }
+    .success { display:none; margin-top:1rem; padding:1rem; background:#ecf9ee; color:#2e7d32; border:1px solid #b7e2bc; border-radius:.6rem; text-align:center; font-weight:600; }
+    .divider { height:1px; background:#eee; margin:1rem 0; }
+    .footer-note { font-size:.9rem; color:#777; margin-top:.5rem; }
   </style>
 </head>
 <body>
+<header>🧾 Commande de Plateaux Repas — FOUD</header>
 
-<header>🧾 Commande de Plateaux Repas - FOUD</header>
-
+<div class="container">
 <form name="commande-foud" method="POST" data-netlify="true" netlify-honeypot="bot-field">
   <input type="hidden" name="form-name" value="commande-foud">
   <p style="display:none;">
     <label>Ne pas remplir ce champ : <input name="bot-field" /></label>
   </p>
 
+  <h2>Plateaux nominatifs</h2>
   <div id="plateaux-container">
-    <div class="plateau">
-      <h2>Plateau 1</h2>
-      <label>Nom du collaborateur</label>
-      <input type="text" name="nom-1" required>
+    <div class="plateau" data-index="1">
+      <div class="plateau-actions">
+        <button type="button" class="btn btn-ghost btn-remove" onclick="supprimerPlateau(this)" title="Supprimer ce plateau">Supprimer</button>
+      </div>
+      <p class="plateau-title">Plateau 1</p>
 
-      <label>Entrée</label>
-      <select name="entree-1" required>
-        <option value="">-- Sélectionnez une entrée --</option>
-        <option>Salade César</option>
-        <option>Terrine de campagne</option>
-        <option>Taboulé maison</option>
-      </select>
-
-      <label>Plat</label>
-      <select name="plat-1" required>
-        <option value="">-- Sélectionnez un plat --</option>
-        <option>Poulet rôti et légumes</option>
-        <option>Saumon grillé</option>
-        <option>Lasagnes végétariennes</option>
-      </select>
-
-      <label>Dessert</label>
-      <select name="dessert-1" required>
-        <option value="">-- Sélectionnez un dessert --</option>
-        <option>Tiramisu</option>
-        <option>Salade de fruits</option>
-        <option>Mousse au chocolat</option>
-      </select>
-
-      <label>Boisson</label>
-      <select name="boisson-1">
-        <option value="">-- Choisissez une boisson --</option>
-        <option>Eau plate</option>
-        <option>Eau gazeuse</option>
-        <option>Coca-Cola</option>
-        <option>Jus d’orange</option>
-      </select>
-
-      <div class="checkbox-inline">
-        <input type="checkbox" name="pain-1" value="Oui">
-        <label>Pain</label>
+      <div class="row">
+        <div class="field">
+          <label>Nom du collaborateur</label>
+          <input type="text" name="nom-1" required>
+        </div>
+        <div class="field">
+          <label>Entrée</label>
+          <select name="entree-1" required>
+            <option value="">-- Sélectionnez une entrée --</option>
+            <option>Œufs Mimosa / salade mâche</option>
+            <option>Focaccia façon pissaladière</option>
+            <option>Velouté de poireaux / pommes de Terre</option>
+          </select>
+        </div>
       </div>
 
-      <div class="checkbox-inline">
-        <input type="checkbox" name="fromage-1" value="Oui">
-        <label>Option Fromages (+3€)</label>
+      <div class="row">
+        <div class="field">
+          <label>Plat</label>
+          <select name="plat-1" required>
+            <option value="">-- Sélectionnez un plat --</option>
+            <option>Cannelloni de veau / champignons / sauge</option>
+            <option>La salade César</option>
+            <option>Epaule d’agneau confite / purée de pommes de terre</option>
+            <option>Poulet sauce Satay / Riz Basmati</option>
+            <option>Risotto aux truffes / topinambours rôtis</option>
+            <option>Tataki de thon / nouilles Soba</option>
+            <option>Curry de légumes japonais</option>
+            <option>Salade de quinoa / papeton de Butternut / Courge</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Dessert</label>
+          <select name="dessert-1" required>
+            <option value="">-- Sélectionnez un dessert --</option>
+            <option>Mousse au chocolat "Démoniaque"</option>
+            <option>Salade de fruits frais / sirop verveine</option>
+            <option>Tarte "Snickers"</option>
+            <option>Graines de chia / ananas / fruits exotique</option>
+          </select>
+        </div>
       </div>
 
-      <label>Commentaires</label>
-      <textarea name="commentaires-1" rows="2"></textarea>
+      <div class="row">
+        <div class="field">
+          <label>Boisson</label>
+          <select name="boisson-1">
+            <option value="">-- Choisissez une boisson --</option>
+            <option>Eaux gazeuse 50cl</option>
+            <option>Eaux plate 50cl</option>
+            <option>Coca cola zero 50cl</option>
+            <option>Coca cola 50 cl</option>
+            <option>Jus d’orange</option>
+            <option>Jus detox mangue gingembre 25cl</option>
+            <option>Jus detox carotte citron 25cl</option>
+            <option>Jus detox fruits rouge 25cl</option>
+            <option>Limonade citron / citron vert 33cl</option>
+            <option>Limonade citron / gingembre 33cl</option>
+            <option>Kombucha curcuma / citron 33cl</option>
+            <option>Kombucha maté / agrumes 33cl</option>
+            <option>Kombucha hibiscus / rose 33cl</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Pain</label>
+          <div class="inline-radios">
+            <label><input type="radio" name="pain-1" value="Oui"> Oui</label>
+            <label><input type="radio" name="pain-1" value="Non" checked> Non</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Option Fromages (+3 €)</label>
+          <select name="fromage-1">
+            <option value="">-- Sans fromage --</option>
+            <option>pélardon</option>
+            <option>crottin de chêvre</option>
+            <option>st-Marcellin</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Commentaires</label>
+          <textarea name="commentaires-1" placeholder="Allergies, consignes de livraison, etc."></textarea>
+        </div>
+      </div>
     </div>
   </div>
 
-  <button type="button" class="add-plateau" onclick="ajouterPlateau()">+ Ajouter un plateau</button>
+  <button type="button" class="btn btn-green" onclick="ajouterPlateau()">+ Ajouter un plateau</button>
+
+  <div class="divider"></div>
 
   <h2>Informations de commande</h2>
-  <label>Nom / Société</label>
-  <input type="text" name="client-nom" required>
+  <div class="row">
+    <div class="field">
+      <label>Nom / Société</label>
+      <input type="text" name="client-societe" required>
+    </div>
+    <div class="field">
+      <label>Nom du contact</label>
+      <input type="text" name="client-contact" required>
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label>Email</label>
+      <input type="email" name="client-email" required>
+    </div>
+    <div class="field">
+      <label>Téléphone</label>
+      <input type="tel" name="client-tel">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label>Date de livraison souhaitée</label>
+      <input type="date" name="client-date" required>
+    </div>
+    <div class="field">
+      <label>Heure souhaitée</label>
+      <input type="time" name="client-heure">
+    </div>
+  </div>
 
-  <label>Email</label>
-  <input type="email" name="client-email" required>
-
-  <label>Téléphone</label>
-  <input type="tel" name="client-tel">
-
-  <label>Adresse de livraison</label>
-  <textarea name="client-adresse" rows="2"></textarea>
-
-  <label>Date de livraison souhaitée</label>
-  <input type="date" name="client-date" required>
-
-  <label>Heure souhaitée</label>
-  <input type="time" name="client-heure">
-
-  <button type="submit">Envoyer ma commande</button>
+  <div class="footer-note">En envoyant ce formulaire, la commande sera transmise à l’équipe FOUD (copie enregistrée dans Netlify Forms).</div>
+  <br>
+  <button class="btn btn-primary" type="submit">Envoyer ma commande</button>
 
   <div class="success" id="successMessage">
-    ✅ Merci ! Votre commande a bien été envoyée à l’équipe FOUD.<br>
-    Vous recevrez une confirmation par e-mail très prochainement.
+    ✅ Merci ! Votre commande FOUD a bien été envoyée 🍴<br>
+    Notre équipe vous confirme la réception très bientôt.
   </div>
 </form>
+</div>
 
 <script>
   let count = 1;
+
+  function updateNames(node, newIndex) {
+    node.setAttribute('data-index', newIndex);
+    node.querySelector('.plateau-title').textContent = 'Plateau ' + newIndex;
+    node.querySelectorAll('input, select, textarea').forEach(el => {
+      const base = (el.getAttribute('name') || '').split('-')[0];
+      if (base) el.setAttribute('name', base + '-' + newIndex);
+      if (el.type !== 'radio' && el.type !== 'checkbox') el.value = '';
+    });
+    // reset radios (pain)
+    const radios = node.querySelectorAll('input[type="radio"][name="pain-' + newIndex + '"]');
+    if (radios.length) {
+      radios.forEach(r => r.checked = false);
+      // default Non
+      const non = node.querySelector('input[type="radio"][name="pain-' + newIndex + '"][value="Non"]');
+      if (non) non.checked = true;
+    }
+  }
+
   function ajouterPlateau() {
     count++;
     const container = document.getElementById('plateaux-container');
-    const nouveau = document.querySelector('.plateau').cloneNode(true);
-    nouveau.querySelector('h2').textContent = "Plateau " + count;
-    nouveau.querySelectorAll('input, select, textarea').forEach(el => {
-      const name = el.getAttribute('name');
-      if (name) el.setAttribute('name', name.split('-')[0] + '-' + count);
-      if (el.type !== 'checkbox') el.value = '';
-      if (el.type === 'checkbox') el.checked = false;
-    });
-    container.appendChild(nouveau);
+    const template = document.querySelector('.plateau');
+    const clone = template.cloneNode(true);
+    // Clear values & rename
+    updateNames(clone, count);
+    container.appendChild(clone);
   }
 
-  const form = document.querySelector('form');
-  form.addEventListener('submit', () => {
-    document.getElementById('successMessage').style.display = 'block';
+  function supprimerPlateau(btn) {
+    const container = document.getElementById('plateaux-container');
+    const items = container.querySelectorAll('.plateau');
+    if (items.length <= 1) {
+      // keep at least one
+      alert('Au moins un plateau est requis.');
+      return;
+    }
+    const node = btn.closest('.plateau');
+    node.remove();
+    // reindex remaining
+    const rest = container.querySelectorAll('.plateau');
+    count = 0;
+    rest.forEach((el, i) => { count = i + 1; updateNames(el, count); });
+  }
+
+  // Show inline success message (Netlify fera la soumission/redirect si configuré)
+  const form = document.querySelector('form[name="commande-foud"]');
+  form.addEventListener('submit', function() {
+    const msg = document.getElementById('successMessage');
+    if (msg) msg.style.display = 'block';
   });
 </script>
 
