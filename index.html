@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commande Plateaux Repas | FOUD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {font-family:"Poppins",sans-serif;background:#f7f7f7;color:#333;margin:0;padding:0;}
+    header {background:#1a1a1a;color:white;text-align:center;padding:1.5em 1em;font-size:1.5em;letter-spacing:1px;}
+    form {max-width:800px;margin:2em auto;background:white;padding:2em;border-radius:1em;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+    h2 {border-bottom:2px solid #ffa726;padding-bottom:0.3em;margin-bottom:0.8em;color:#ff9800;}
+    .plateau {border:1px solid #ddd;padding:1.5em;border-radius:1em;margin-bottom:1.5em;background:#fafafa;}
+    label {display:block;margin:0.5em 0 0.2em;font-weight:500;}
+    input, select, textarea {width:100%;padding:0.6em;border:1px solid #ccc;border-radius:0.5em;font-size:1em;}
+    textarea {resize:vertical;}
+    .checkbox-inline {display:flex;align-items:center;gap:0.5em;margin-top:0.5em;}
+    button {display:inline-block;background:#ff9800;color:white;border:none;padding:0.8em 1.2em;border-radius:0.5em;font-size:1em;cursor:pointer;transition:background 0.2s ease;}
+    button:hover {background:#fb8c00;}
+    .add-plateau {margin-top:1em;background:#43a047;}
+    .add-plateau:hover {background:#388e3c;}
+    .success {text-align:center;color:#2e7d32;font-weight:600;display:none;margin-top:1.5em;}
+  </style>
+</head>
+<body>
+
+<header>🧾 Commande de Plateaux Repas - FOUD</header>
+
+<form name="commande-foud" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="commande-foud">
+  <p style="display:none;">
+    <label>Ne pas remplir ce champ : <input name="bot-field" /></label>
+  </p>
+
+  <div id="plateaux-container">
+    <div class="plateau">
+      <h2>Plateau 1</h2>
+      <label>Nom du collaborateur</label>
+      <input type="text" name="nom-1" required>
+
+      <label>Entrée</label>
+      <select name="entree-1" required>
+        <option value="">-- Sélectionnez une entrée --</option>
+        <option>Salade César</option>
+        <option>Terrine de campagne</option>
+        <option>Taboulé maison</option>
+      </select>
+
+      <label>Plat</label>
+      <select name="plat-1" required>
+        <option value="">-- Sélectionnez un plat --</option>
+        <option>Poulet rôti et légumes</option>
+        <option>Saumon grillé</option>
+        <option>Lasagnes végétariennes</option>
+      </select>
+
+      <label>Dessert</label>
+      <select name="dessert-1" required>
+        <option value="">-- Sélectionnez un dessert --</option>
+        <option>Tiramisu</option>
+        <option>Salade de fruits</option>
+        <option>Mousse au chocolat</option>
+      </select>
+
+      <label>Boisson</label>
+      <select name="boisson-1">
+        <option value="">-- Choisissez une boisson --</option>
+        <option>Eau plate</option>
+        <option>Eau gazeuse</option>
+        <option>Coca-Cola</option>
+        <option>Jus d’orange</option>
+      </select>
+
+      <div class="checkbox-inline">
+        <input type="checkbox" name="pain-1" value="Oui">
+        <label>Pain</label>
+      </div>
+
+      <div class="checkbox-inline">
+        <input type="checkbox" name="fromage-1" value="Oui">
+        <label>Option Fromages (+3€)</label>
+      </div>
+
+      <label>Commentaires</label>
+      <textarea name="commentaires-1" rows="2"></textarea>
+    </div>
+  </div>
+
+  <button type="button" class="add-plateau" onclick="ajouterPlateau()">+ Ajouter un plateau</button>
+
+  <h2>Informations de commande</h2>
+  <label>Nom / Société</label>
+  <input type="text" name="client-nom" required>
+
+  <label>Email</label>
+  <input type="email" name="client-email" required>
+
+  <label>Téléphone</label>
+  <input type="tel" name="client-tel">
+
+  <label>Adresse de livraison</label>
+  <textarea name="client-adresse" rows="2"></textarea>
+
+  <label>Date de livraison souhaitée</label>
+  <input type="date" name="client-date" required>
+
+  <label>Heure souhaitée</label>
+  <input type="time" name="client-heure">
+
+  <button type="submit">Envoyer ma commande</button>
+
+  <div class="success" id="successMessage">
+    ✅ Merci ! Votre commande a bien été envoyée à l’équipe FOUD.<br>
+    Vous recevrez une confirmation par e-mail très prochainement.
+  </div>
+</form>
+
+<script>
+  let count = 1;
+  function ajouterPlateau() {
+    count++;
+    const container = document.getElementById('plateaux-container');
+    const nouveau = document.querySelector('.plateau').cloneNode(true);
+    nouveau.querySelector('h2').textContent = "Plateau " + count;
+    nouveau.querySelectorAll('input, select, textarea').forEach(el => {
+      const name = el.getAttribute('name');
+      if (name) el.setAttribute('name', name.split('-')[0] + '-' + count);
+      if (el.type !== 'checkbox') el.value = '';
+      if (el.type === 'checkbox') el.checked = false;
+    });
+    container.appendChild(nouveau);
+  }
+
+  const form = document.querySelector('form');
+  form.addEventListener('submit', () => {
+    document.getElementById('successMessage').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
