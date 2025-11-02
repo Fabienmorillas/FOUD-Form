@@ -1,32 +1,75 @@
-# FOUD — Formulaire plateaux repas (v2)
+# 🥗 Formulaire FOUD – Commande de Plateaux Repas
 
-Formulaire centré, dynamique (ajout/suppression de plateaux), sans prix, prêt pour Netlify Forms.
-Les soumissions sont visibles dans **Forms → Submissions** et vous pouvez activer une notification vers `manager@foud.com` dans les **Form settings**.
+Ce dépôt contient le code HTML complet du formulaire de commande **FOUD**, prêt à être intégré dans :
+- un site **WordPress / Divi** (par shortcode HTML ou bloc code),
+- un hébergement **OVH** (via FTP),
+- ou directement sur **Netlify** avec gestion des soumissions et envoi d’e-mails automatiques via **Brevo**.
 
-## Déploiement (Netlify)
+---
 
-1) Créez un dépôt public GitHub `FOUD-Form` et ajoutez ces fichiers.
-2) Sur https://app.netlify.com → **Add new site** → **Import an existing project** → connectez votre GitHub et choisissez `FOUD-Form`.
-3) Build settings : *aucun build*, dossier racine, le fichier `index.html` sera servi tel quel.
-4) Une fois déployé : allez dans **Forms** → vous verrez le formulaire `commande-foud`.
-5) Dans **Form notifications**, ajoutez l’e-mail de notification `manager@foud.com`.
-6) Optionnel : créez une page de remerciement et mettez son URL dans les paramètres de redirection du formulaire si souhaité.
+## 🚀 Déploiement sur Netlify
 
-## Champs par plateau
-- Nom du collaborateur
-- Entrée
-- Plat
-- Dessert
-- Boisson
-- Pain (Oui / Non)
-- Option Fromages (+3 €) : pélardon / crottin de chêvre / st-Marcellin
-- Commentaires
+1. **Crée un dépôt GitHub public** nommé `FOUD-Form`.
+2. Glisse les fichiers du ZIP (ou clone depuis ton PC).
+3. Connecte ton compte Netlify et choisis le dépôt GitHub.
+4. Active les formulaires Netlify :
+   - Va dans le panneau Netlify > **Forms**
+   - Vérifie que le formulaire `"commande-foud"` est détecté.
+5. Ajoute ton e-mail de réception (ex. `manager@foud.com`) dans les notifications Netlify.
 
-## Infos de commande
-- Nom / Société
-- Nom du contact
-- Email
-- Téléphone
-- Date & Heure de livraison
+---
 
-Bouton principal : **Envoyer ma commande**.
+## 💌 Intégration e-mail (Brevo)
+
+Pour relier les confirmations client via **Brevo** :
+
+1. Crée un compte gratuit sur [https://www.brevo.com](https://www.brevo.com)
+2. Configure un template d’e-mail “Confirmation de commande FOUD”
+3. Utilise l’automation “Lorsqu’un formulaire Netlify est soumis”
+   - Connecte l’API Brevo via **Zapier** ou **Make (Integromat)**
+   - Champs recommandés :
+     - `nom-client`
+     - `email-client`
+     - `commentaires`
+     - Détail des plateaux (Netlify enverra le contenu complet du formulaire)
+
+---
+
+## 🧱 Structure du formulaire
+
+Chaque commande contient :
+- Jusqu’à **5 plateaux repas** (ajoutables/supprimables)
+- Champs :  
+  `Nom`, `Entrée`, `Plat`, `Dessert`, `Boisson`, `Pain (Oui par défaut)`, `Fromage`, `Commentaires`
+- Section finale : informations client + commentaires de commande.
+
+---
+
+## 🖨️ PDF imprimable
+
+- La mise en page est adaptée pour une impression **A4**
+- Utiliser le bouton **🖨️ Imprimer** pour obtenir un rendu propre
+- 5 plateaux maximum par page.
+
+---
+
+## 🧰 Personnalisation
+
+Pour changer la carte :
+- Ouvre `index.html`
+- Modifie les listes JavaScript :
+  ```js
+  const plats = [ ... ]
+  const entrees = [ ... ]
+  const desserts = [ ... ]
+  const boissons = [ ... ]
+  ```
+- Sauvegarde et redéploie.
+
+---
+
+## 📧 Support FOUD
+
+Pour assistance technique :
+**Email :** manager@foud.com  
+**Site :** [https://foud.com](https://foud.com)
